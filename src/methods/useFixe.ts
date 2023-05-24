@@ -2,13 +2,21 @@ import { ethers } from "ethers";
 import FixeToken from '../ABI/FixeToken.json';
 import { IError } from '../interface'
 
-const useFixe = (provider: any, address: string) => {
+const useFixe = (provider: any, address: string, signer: any) => {
+
   const stakingInstance = () => {
-    const staking = new ethers.Contract(address, FixeToken.abi, provider);
+    const staking = new ethers.Contract(address, FixeToken.abi, signer ?? provider);
+    console.log(signer, 'signer')
+    return staking;
+  }
+
+  const sendStakingInstance = () => {
+    const signer = provider.getSigner(); // Replace 'provider' with your appropriate provider instance
+    const staking = new ethers.Contract(address, FixeToken.abi, signer);
     return staking;
   };
 
-  const allowance = async (owner: string, spender: string): Promise<number | IError> => {
+  const getAllowance = async (owner: string | any, spender: string): Promise<number | IError> => {
     try {
       const staking = stakingInstance();
       const allowance = await staking.allowance(owner, spender);
@@ -18,23 +26,27 @@ const useFixe = (provider: any, address: string) => {
     }
   };
 
-  const approve = async (spender: string, amount: number): Promise<boolean | IError> => {
+  const approve = async (spender: string, amount: number): Promise<string | IError> => {
     try {
-      const staking = stakingInstance();
+      const staking = sendStakingInstance();
       const tx = await staking.approve(spender, amount);
       const res = await tx.wait();
       return res.hash;
     } catch (error: IError | any) {
+        console.log(error.message, 'for approve')
       return error;
     }
   };
 
-  const balanceOf = async (account: string): Promise<number | IError> => {
+  const balanceOf = async (account: string | any): Promise<number | IError> => {
     try {
       const staking = stakingInstance();
+      console.log(account, 'account')
       const balance = await staking.balanceOf(account);
-      return balance;
+      const balanceAdjustment = Number(balance) / (10 ** 18)
+      return balanceAdjustment;
     } catch (error: IError | any) {
+      console.log(error.message, 'for balanceOf')
       return error;
     }
   };
@@ -50,7 +62,7 @@ const useFixe = (provider: any, address: string) => {
     }
   };
 
-  const increaseAllowance = async (spender: string, addedValue: number): Promise<boolean | IError> => {
+  const increaseAllowance = async (spender: string | any, addedValue: number): Promise<boolean | IError> => {
     try {
       const staking = stakingInstance();
       const tx = await staking.increaseAllowance(spender, addedValue);
@@ -114,7 +126,7 @@ const useFixe = (provider: any, address: string) => {
   };
 
   return {
-    allowance,
+    getAllowance,
     approve,
     balanceOf,
     decreaseAllowance,

@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Web3ReactProvider } from '@web3-react/core';
 import { PRIORITIZED_CONNECTORS } from './web3/connections';
+import { AppProvider } from './state';
 
 
 const root = ReactDOM.createRoot(
@@ -16,7 +17,9 @@ root.render(
     <Web3ReactProvider
       connectors={Object.values(PRIORITIZED_CONNECTORS).map((connector) => [connector.connector, connector.hooks])}
     >
-      <App />
+      <AppProvider>
+        <App />
+      </AppProvider>
     </Web3ReactProvider>
   </React.StrictMode>
 );

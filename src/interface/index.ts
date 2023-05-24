@@ -14,4 +14,9 @@ export interface IStakeData {
     stakers: any
 }
 
+export interface ITokenData {
+    allowance: any,
+    balance: any
+}
+
 // rewards, totalStaked, stakers
