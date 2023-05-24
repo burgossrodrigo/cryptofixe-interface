@@ -1,7 +1,11 @@
 import { createTheme, ThemeProvider } from '@mui/material';
-import { PageWrapper } from './components';
+import { PageWrapper, RowWrapper } from './components';
 import SubHeader from './components/SubHeader'
-import TabComponent from './components/TabComponent';
+import Header from './components/Header';
+import UserData from './components/UserData';
+import CollectCard from './components/ColllectCard';
+import WithdrawCard from './components/WithdrawCard';
+import DepositCard from './components/DepositCard';
 
 
 
@@ -67,15 +71,20 @@ function App() {
   });
 
 
-  return (
-
-    <PageWrapper>
-      <ThemeProvider theme={theme}>
-        <SubHeader />
-        <TabComponent />
-      </ThemeProvider>
-    </PageWrapper>
-  );
+  return (<>
+    <ThemeProvider theme={theme}>
+      <SubHeader />
+      <Header />
+      <PageWrapper>
+        <UserData />
+        <RowWrapper gap="2vw">
+          <DepositCard />
+          <CollectCard />
+          <WithdrawCard />
+        </RowWrapper>
+      </PageWrapper>
+    </ThemeProvider>
+  </>);
 }
 
 export default App;
