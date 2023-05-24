@@ -11,7 +11,6 @@ const TabWrapper = styled.div`
     flex-direction: column;
     margin: 10vh auto;
     width: 60vw;
-    height: 60vh;
 `
 
 const TabComponent = () => {
