@@ -26,7 +26,7 @@ const useFixe = (provider: any, address: string, signer: any) => {
     }
   };
 
-  const approve = async (spender: string, amount: number): Promise<string | IError> => {
+  const approve = async (spender: string, amount: number): Promise<string | IError | any> => {
     try {
       const staking = sendStakingInstance();
       const tx = await staking.approve(spender, amount);

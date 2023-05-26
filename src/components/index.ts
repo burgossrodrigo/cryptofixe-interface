@@ -10,7 +10,7 @@ export const PageWrapper = styled.div`
 
 export const StyledCard = styled(Card)`
 width: 80%;
-margin: 10% auto;
+margin: 2vh auto;
 height: 50%;
 `
 
@@ -23,5 +23,13 @@ export const RowWrapper = styled.div<{ gap: any }>`
 position: relative;
   display: flex;
   flex-direction: row;
+  margin: auto auto;
+  gap: ${(props: any) => props.gap};
+`;
+
+export const ColumnWrapper = styled.div<{ gap: any }>`
+position: relative;
+  display: flex;
+  flex-direction: column;
   gap: ${(props: any) => props.gap};
 `;

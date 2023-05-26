@@ -1,6 +1,7 @@
 import { ethers } from "ethers";
 import StakingArtifact from '../ABI/FixeStake.json';
 import { IError, IStaker } from '../interface'
+import { formatDecimalsTo } from "./utils";
 
 const useStaking = (provider: any, address: string) => {
   const stakingInstance = () => {
@@ -8,12 +9,23 @@ const useStaking = (provider: any, address: string) => {
     return staking;
   };
 
-  const deposit = async (amount: number): Promise<string | IError> => {
+  const signerStakingInstance = () => {
+    const signer = provider.getSigner(); // Replace 'provider' with your appropriate provider instance
+    const staking = new ethers.Contract(address, StakingArtifact.abi, signer);
+    return staking;
+  };
+
+  const deposit = async (amount: any): Promise<string | IError> => {
     try {
-      const staking = stakingInstance();
-      const tx = await staking.deposit(amount);
-      const res = await tx.wait();
-      return res.hash;
+      const deposit = BigInt(formatDecimalsTo(amount))
+      const parsedAmount = ethers.toBigInt(deposit)
+      console.log(parsedAmount, 'parsedAmount')
+      const staking = signerStakingInstance();
+      // const gas = await staking.deposit.estimateGas(parsedAmount)
+      // console.log(gas, 'gas')
+      const tx = await staking.deposit(parsedAmount, {gasLimit: 300000});
+      await tx.wait()
+      return tx.hash
     } catch (error: IError | any) {
       return error;
     }
@@ -21,8 +33,8 @@ const useStaking = (provider: any, address: string) => {
 
   const withdraw = async (amount: number): Promise<string | IError> => {
     try {
-      const staking = stakingInstance();
-      const tx = await staking.withdraw(amount);
+      const staking = signerStakingInstance();
+      const tx = await staking.withdraw(amount, {gasLimit: 300000});
       const res = await tx.wait();
       return res.hash;
     } catch (error: IError | any) {
@@ -30,10 +42,23 @@ const useStaking = (provider: any, address: string) => {
     }
   };
 
-  const collect = async (): Promise<string | IError> => {
+  const collect = async (amount: number): Promise<string | IError> => {
     try {
-      const staking = stakingInstance();
-      const tx = await staking.collect();
+      const deposit = BigInt(formatDecimalsTo(amount))
+      const parsedAmount = ethers.toBigInt(deposit)
+      const staking = signerStakingInstance();
+      const tx = await staking.collect(parsedAmount, {gasLimit: 300000});
+      const res = await tx.wait();
+      return res.hash;
+    } catch (error: IError | any) {
+      return error;
+    }
+  };
+
+  const restake = async (): Promise<string | IError> => {
+    try {
+      const staking = signerStakingInstance();
+      const tx = await staking.restake({gasLimit: 300000});
       const res = await tx.wait();
       return res.hash;
     } catch (error: IError | any) {
@@ -52,21 +77,11 @@ const useStaking = (provider: any, address: string) => {
     }
   };
 
-  const restake = async (): Promise<string | IError> => {
-    try {
-      const staking = stakingInstance();
-      const tx = await staking.restake();
-      const res = await tx.wait();
-      return res.hash;
-    } catch (error: IError | any) {
-      return error;
-    }
-  };
-
   const getStaker = async (userAddress: string): Promise<IStaker | IError> => {
     try {
       const staking = stakingInstance();
       const staker = await staking.getStaker(userAddress);
+      console.log(staker, 'na func')
       return staker;
     } catch (error: IError | any) {
       return error;

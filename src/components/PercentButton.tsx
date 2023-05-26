@@ -1,0 +1,43 @@
+import React from 'react';
+import Button from '@mui/material/Button';
+import styled from 'styled-components';
+
+interface PercentageButtonsProps {
+  onDepositChange: (newDeposit: number) => void;
+  balance: any
+}
+
+const StyledContainer = styled.div`
+  display: flex;
+  gap: 1vw;
+`;
+
+const StyledButton = styled(Button)`
+  flex: 1;
+`;
+
+const PercentageButtons: React.FC<PercentageButtonsProps> = ({ onDepositChange, balance }) => {
+  const handleButtonClick = (percentage: number) => {
+    const newDeposit = percentage * Number(balance);
+    onDepositChange(newDeposit);
+  };
+
+  return (
+    <StyledContainer>
+      <StyledButton variant="contained" size="small" onClick={() => handleButtonClick(0.25)}>
+        25%
+      </StyledButton>
+      <StyledButton variant="contained" size="small" onClick={() => handleButtonClick(0.5)}>
+        50%
+      </StyledButton>
+      <StyledButton variant="contained" size="small" onClick={() => handleButtonClick(0.75)}>
+        75%
+      </StyledButton>
+      <StyledButton variant="contained" size="small" onClick={() => handleButtonClick(1)}>
+        100%
+      </StyledButton>
+    </StyledContainer>
+  );
+};
+
+export default PercentageButtons;

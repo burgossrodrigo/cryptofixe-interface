@@ -30,17 +30,16 @@ const SubHeader = () => {
     const { stakersCount, getTotalStaked, getTotalRewardPaid } = useStaking(provider ?? arbitrumProvider, stakingAddress)
     const { getAllowance, balanceOf } = useFixe(provider ?? arbitrumProvider, fixeAddress, undefined)
 
-
     const fetchStakeData = async (): Promise<IStakeData | IError> => {
         try {
             const [
                 rewards,
                 totalStaked,
-                stakers,
+                stakers
             ] = await Promise.all([
-                stakersCount(),
+                getTotalRewardPaid(),
                 getTotalStaked(),
-                getTotalRewardPaid()
+                stakersCount(),
             ])
             return { rewards, totalStaked, stakers }
         } catch (error: IError | any) {
