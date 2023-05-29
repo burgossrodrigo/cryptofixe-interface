@@ -32,7 +32,7 @@ const UserData = () => {
         <ColumnWrapper gap={'1vh'}>
           <Chip size="medium" label="Total value staked:" />
           <Typography variant="h2">
-            {Number(stakeData?.totalStaked) / 10 ** 18}
+            {Number(Number(stakeData?.totalStaked) / 10 ** 18).toFixed(2)}
           </Typography>
         </ColumnWrapper>
         <ColumnWrapper gap={'1vh'}>
