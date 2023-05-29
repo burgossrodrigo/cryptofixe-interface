@@ -9,6 +9,6 @@ export const formatDecimalsFrom = (value: any) => {
 }
 
 export const formatDecimalsTo = (value: any) => {
-    const result = value * (10 ** 18)
+    const result = Number(value) * (10 ** 18)
     return result
 }

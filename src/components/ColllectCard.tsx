@@ -1,6 +1,6 @@
 import { CardContent, Button, Backdrop, Paper, Chip, CardActions, CardHeader, Typography, Slider } from "@mui/material";
 import { StyledCard } from ".";
-import Example from "../web3/HandleConnection";
+import ethers from 'ethers'
 import { useWeb3React } from "@web3-react/core";
 import { useContext, useEffect, useState } from "react";
 import PercentageButtons from "./PercentButton";
@@ -16,7 +16,7 @@ const CollectCard = () => {
     const { blockNumber } = state
     const [open, setOpen] = useState(false)
     const [deposit, setDeposit] = useState<string | number>(0)
-    const [rewards, setRewards] = useState<any>()
+    const [rewards, setRewards] = useState<number>()
 
     const { getReward, collect } = useStaking(provider ?? arbitrumProvider, stakingAddress)
 
@@ -24,19 +24,19 @@ const CollectCard = () => {
         if (account) {
             getReward(account).then((res: IStaker | IError | any) => {
                 console.log(res, 'getReward')
-                setRewards(Number(res))
+                setRewards(Number(formatDecimalsFrom(res)))
             })
         }
-    }, [blockNumber])
+    }, [blockNumber, account])
 
     const handleDepositChange = (newDeposit: number) => {
         setDeposit(newDeposit);
-      };
+    };
 
 
     const handleSliderChange = (event: any, value: any) => {
         console.log(value, 'value')
-        setDeposit((value / 100) * Number(formatDecimalsFrom(rewards)))
+        setDeposit((value / 100) * Number(rewards))
     }
 
     const valuetext = (value: number) => {
@@ -44,7 +44,8 @@ const CollectCard = () => {
     }
 
     const _collect = () => {
-        collect(formatDecimalsTo(deposit))
+        console.log(deposit, 'deposit')
+        collect(Number(deposit))
     }
 
     return (
@@ -57,13 +58,13 @@ const CollectCard = () => {
                     <Typography variant="body1">Click on Collect, approve the transaction on your wallet to receive your rewards</Typography>
                 </CardContent>
                 <CardContent>
-                    <Chip size='medium' label={`Total rewards: ${formatDecimalsFrom(Number(rewards)).toFixed(2)}`} />
+                    <Chip size='medium' label={`Total rewards: ${Number(rewards).toFixed(2)}`} />
                 </CardContent>
                 <CardContent>
                     <Chip size='medium' label={`Deposit amount: ${Number(deposit).toFixed(2)}`} />
                 </CardContent>
                 <CardContent>
-                    <PercentageButtons balance={formatDecimalsFrom(Number(rewards))} onDepositChange={handleDepositChange} />
+                    <PercentageButtons balance={rewards} onDepositChange={handleDepositChange} />
                 </CardContent>
                 <CardContent>
                     <Slider
@@ -79,7 +80,7 @@ const CollectCard = () => {
                     />
                 </CardContent>
                 <CardActions>
-                    <Button variant="contained" size="large" color="secondary">Collect</Button>
+                    <Button variant="contained" size="large" color="secondary" onClick={() => _collect()}>Collect</Button>
                 </CardActions>
             </StyledCard>
         </>

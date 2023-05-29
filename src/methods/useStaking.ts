@@ -17,7 +17,7 @@ const useStaking = (provider: any, address: string) => {
 
   const deposit = async (amount: any): Promise<string | IError> => {
     try {
-      const deposit = BigInt(formatDecimalsTo(amount))
+      const deposit = formatDecimalsTo(amount)
       const parsedAmount = ethers.toBigInt(deposit)
       console.log(parsedAmount, 'parsedAmount')
       const staking = signerStakingInstance();
@@ -33,8 +33,11 @@ const useStaking = (provider: any, address: string) => {
 
   const withdraw = async (amount: number): Promise<string | IError> => {
     try {
+      const decimalsAdjustment = formatDecimalsTo(amount)
+      const withdrawAmount = BigInt(decimalsAdjustment)
+      console.log(withdrawAmount, 'withdrawAmount')
       const staking = signerStakingInstance();
-      const tx = await staking.withdraw(amount, {gasLimit: 300000});
+      const tx = await staking.withdraw(withdrawAmount, {gasLimit: 300000});
       const res = await tx.wait();
       return res.hash;
     } catch (error: IError | any) {
@@ -44,13 +47,16 @@ const useStaking = (provider: any, address: string) => {
 
   const collect = async (amount: number): Promise<string | IError> => {
     try {
-      const deposit = BigInt(formatDecimalsTo(amount))
-      const parsedAmount = ethers.toBigInt(deposit)
+      console.log(amount, 'collectAmount')
+      const decimalsAdjustment = formatDecimalsTo(amount)
+      const parsedAmount = BigInt(decimalsAdjustment)
       const staking = signerStakingInstance();
       const tx = await staking.collect(parsedAmount, {gasLimit: 300000});
       const res = await tx.wait();
+      console.log(res, 'res for collect')
       return res.hash;
     } catch (error: IError | any) {
+      console.log(error.message, 'for collect')
       return error;
     }
   };
