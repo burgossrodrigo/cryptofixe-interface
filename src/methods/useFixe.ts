@@ -1,6 +1,7 @@
 import { ethers } from "ethers";
 import FixeToken from '../ABI/FixeToken.json';
 import { IError } from '../interface'
+import { formatDecimalsTo } from "./utils";
 
 const useFixe = (provider: any, address: string, signer: any) => {
 
@@ -28,8 +29,10 @@ const useFixe = (provider: any, address: string, signer: any) => {
 
   const approve = async (spender: string, amount: number): Promise<string | IError | any> => {
     try {
-      const staking = sendStakingInstance();
-      const tx = await staking.approve(spender, amount);
+      const staking = sendStakingInstance()
+      const decimalsAdjustments = formatDecimalsTo(amount)
+      const parsedAmount = BigInt(decimalsAdjustments)
+      const tx = await staking.approve(spender, parsedAmount);
       const res = await tx.wait();
       return res.hash;
     } catch (error: IError | any) {

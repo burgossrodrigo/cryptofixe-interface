@@ -18,7 +18,7 @@ const useStaking = (provider: any, address: string) => {
   const deposit = async (amount: any): Promise<string | IError> => {
     try {
       const deposit = formatDecimalsTo(amount)
-      const parsedAmount = ethers.toBigInt(deposit)
+      const parsedAmount = BigInt(deposit)
       console.log(parsedAmount, 'parsedAmount')
       const staking = signerStakingInstance();
       // const gas = await staking.deposit.estimateGas(parsedAmount)

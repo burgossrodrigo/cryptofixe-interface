@@ -5,7 +5,7 @@ import { useContext, useState } from "react";
 import useFixe from "../methods/useFixe";
 import { useWeb3React } from "@web3-react/core";
 import { arbitrumProvider, fixeAddress, stakingAddress } from "../constants";
-import { formatValue } from "../methods/utils";
+import { formatDecimalsTo, formatValue } from "../methods/utils";
 import PercentageButtons from "./PercentButton";
 import BigNumberInput from "./BigNumberInput";
 import useStaking from "../methods/useStaking";
@@ -46,7 +46,7 @@ const GeneralCard = () => {
     const handleApproveClick = async () => {
         setIsLoading(true);
         try {
-            const hash = await approve(stakingAddress, formatValue(deposit, balance));
+            const hash = await approve(stakingAddress, Number(deposit))
             setTransactionHash(hash)
             console.log(hash, 'hash')
         } catch (error: any) {
