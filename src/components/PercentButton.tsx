@@ -8,8 +8,8 @@ interface PercentageButtonsProps {
 }
 
 const StyledContainer = styled.div`
-  display: grid;
-  gap: 1vw;
+display: flex;
+gap: 1vw;
   
   @media (max-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
