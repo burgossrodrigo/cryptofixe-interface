@@ -13,6 +13,10 @@ const PaperWrapper = styled.div`
     height: max-content;
     padding: 4vh;
     margin: 2vh auto;
+    @media (max-width: 768px) {
+    flex-direction: column;
+    width: 70vw
+  }
 `
 
 

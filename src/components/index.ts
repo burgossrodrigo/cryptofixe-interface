@@ -17,6 +17,10 @@ height: 50%;
 export const StyledCardContent = styled(CardContent)`
 display: flex;
 flex-direction: column;
+@media (max-width: 768px) {
+  flex-direction: column;
+  width: 80vw;
+}
 `
 
 export const RowWrapper = styled.div<{ gap: any }>`
@@ -25,6 +29,9 @@ position: relative;
   flex-direction: row;
   margin: auto auto;
   gap: ${(props: any) => props.gap};
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 export const ColumnWrapper = styled.div<{ gap: any }>`
