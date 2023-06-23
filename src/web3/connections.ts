@@ -14,10 +14,10 @@ export interface Connection {
 }
 
 export enum ConnectionType {
-  COINBASE_WALLET = 'COINBASE_WALLET',
+  COINBASE_WALLET = 'COINBASE WALLET',
   INJECTED = 'INJECTED',
   NETWORK = 'NETWORK',
-  WALLET_CONNECT = 'WALLET_CONNECT',
+  WALLET_CONNECT = 'WALLET CONNECT',
 }
 
 function getIsBraveWallet(): boolean {

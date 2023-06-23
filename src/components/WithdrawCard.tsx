@@ -79,7 +79,7 @@ const WithdrawCard = () => {
                     <Typography variant="h4">Withdraw</Typography>
                 </CardContent>
                 <CardContent>
-                    <Typography variant="body1">Approve Fixe and stake to start receiving rewards!</Typography>
+                    <Typography variant="body1">Withdraw your FIXE tokens</Typography>
                 </CardContent>
                 <CardContent>
                     <Chip size='medium' label={`Total balance: ${Number(balance).toFixed(2)}`} />

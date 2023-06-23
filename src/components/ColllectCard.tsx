@@ -52,7 +52,7 @@ const CollectCard = () => {
         <>
             <StyledCard elevation={3}>
                 <CardContent>
-                    <Typography variant="h4">Collect</Typography>
+                    <Typography variant="h3">Collect</Typography>
                 </CardContent>
                 <CardContent>
                     <Typography variant="body1">Click on Collect, approve the transaction on your wallet to receive your rewards</Typography>

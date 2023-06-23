@@ -4,7 +4,8 @@ import { IStakeData, ITokenData } from '../interface'
 export const initialState = {
   stakeData: { rewards: 0, totalStaked: 0, stakers: 0 },
   tokenData: { allowance: 0, balance: 0 },
-  blockNumber: 0
+  blockNumber: 0,
+  theme: 'light'
 }
 type AppState = typeof initialState
 
@@ -12,6 +13,8 @@ type ACTIONTYPE =
   | { type: "SET_STAKE_DATA"; payload: IStakeData[] | any }
   | { type: "SET_TOKEN_DATA"; payload: ITokenData[] | any }
   | { type: "SET_BLOCKNUMBER"; payload: number | any }
+  | { type: "SET_THEME"; payload: string | any }
+
 
 
 
@@ -23,6 +26,8 @@ function reducer(state: AppState, action: ACTIONTYPE) {
       return { ...state, tokenData: action.payload }
     case "SET_BLOCKNUMBER":
       return { ...state, blockNumber: action.payload }
+    case "SET_THEME":
+      return { ...state, theme: action.payload }
     default:
       return state
   }

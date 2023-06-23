@@ -17,6 +17,7 @@ flex-direction: row;
 width: 100%;
 gap: 2vw;
 height: max-content;
+background-color: #2E3192;
 `
 
 const StyledSpan = styled.span`
@@ -26,9 +27,11 @@ const StyledSpan = styled.span`
 const SubHeader = () => {
     const { state, dispatch } = useContext(AppContext)
     const { blockNumber } = state
-    const { provider, account } = useWeb3React()
+    const { provider, account, isActive } = useWeb3React()
     const { stakersCount, getTotalStaked, getTotalRewardPaid } = useStaking(provider ?? arbitrumProvider, stakingAddress)
     const { getAllowance, balanceOf } = useFixe(provider ?? arbitrumProvider, fixeAddress, undefined)
+
+
 
     const fetchStakeData = async (): Promise<IStakeData | IError> => {
         try {
@@ -87,10 +90,17 @@ const SubHeader = () => {
         console.log(blockNumber, 'blockNumber')
     })
 
+    if(!isActive){
+        wssArbitrumProvider.on('block', (blockNumber) => {
+            setBlocknumber(dispatch, blockNumber)
+            fetchStakeData().then((res) => setStakeData(dispatch, res))
+        })
+    }
+
     return (
         <HeadWrapper>
             <Stack direction="row" spacing={1}>
-                <StyledSpan><Chip onDelete={_ => { }} deleteIcon={<FiberManualRecordIcon color='success' />} label={`Latest synced block ${blockNumber ?? 'Connect wallet'}`} /></StyledSpan>
+                <StyledSpan><Chip color='primary' onDelete={_ => { }} deleteIcon={<FiberManualRecordIcon color='success' />} label={`Latest synced block ${blockNumber ?? 'Connect wallet'}`} /></StyledSpan>
             </Stack>
         </HeadWrapper>
     )

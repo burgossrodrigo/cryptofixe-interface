@@ -72,7 +72,7 @@ const GeneralCard = () => {
         <>
             <StyledCard elevation={3}>
                 <CardContent>
-                    <Typography variant="h4">Deposit</Typography>
+                    <Typography variant="h3">Deposit</Typography>
                 </CardContent>
                 <CardContent>
                     <Typography variant="body1">Approve Fixe and stake to start receiving rewards!</Typography>
